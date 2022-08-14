@@ -8,12 +8,15 @@ namespace LogisticApp.ModelsCustomer
     {
 
         public string Id { get; set; }
-        public virtual List<Customer> Customers { get; set; }
-        public DayOfWeek DayOfWeek { get; set; }// ziua comenzii
+        public  Customer Customers { get; set; }
+        public string CustomerId { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
 
-        public TimeSpan Hour { get; set; }// ora comenzii
-        public List<OrderLocation> OrderLocations { get; set; }
-        public List<Product>Products { get; set; }
+        public DateTime DateTime { get; set; }
+        public OrderLocation OrderLocations { get; set; }
+        public string OrderLocationId { get; set; }
+        public List<Product> Products { get; set; }
+        
         
 
 

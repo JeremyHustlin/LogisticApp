@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LogisticApp.Migrations
 {
-    [DbContext(typeof(LogisticDbContext))]
+    [DbContext(typeof(LogisticDbContextV1))]
     [Migration("20220810162125_Initial")]
     partial class Initial
     {

@@ -13,7 +13,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<LogisticDbContext>(options => options.UseSqlServer(
+builder.Services.AddDbContext<LogisticDbContextV1>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("ContactsApiConnectionString")));
+builder.Services.AddDbContext<LogisticDbContextV2>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("ContactsApiConnectionString")));
+builder.Services.AddDbContext<LogisticDbContextV3>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("ContactsApiConnectionString")));
+builder.Services.AddDbContext<LogisticDbContextV4>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("ContactsApiConnectionString")
     ));
 

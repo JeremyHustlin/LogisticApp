@@ -10,13 +10,7 @@ namespace LogisticApp.ModelsCustomer
     {
         public string Id { get; set; }
         public string Company_Name { get; set; }// numele la companie
-        public string Call_Centre_Phone { get; set; }//numarul de telefon
-        [ForeignKey("Order")]
-        public string OrderId { get; set; }
-        public virtual Order Orders { get; set; }
-        public OrderLocation OrderLocation { get; set; }
-        public string OrderLocationId { get; set; }
-        public Product Product  { get; set; }
-        public string ProductId { get; set; }
+        public string CallCentrePhone { get; set; }//numarul de telefon
+        public List<Order> Orders { get; set; }
     }
 }
