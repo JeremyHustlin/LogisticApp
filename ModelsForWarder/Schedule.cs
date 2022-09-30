@@ -9,5 +9,7 @@ namespace LogisticApp.ModelsForWarder
 
         public OrderLocation OrderLocation { get; set; }
         public string OrderLocationId { get; set; }
+
+
     }
 }

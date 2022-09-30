@@ -11,7 +11,7 @@ namespace LogisticApp.ModelsCustomer
         public  Customer Customers { get; set; }
         public string CustomerId { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
-
+        public string Name { get; set; }
         public DateTime DateTime { get; set; }
         public OrderLocation OrderLocations { get; set; }
         public string OrderLocationId { get; set; }

@@ -62,7 +62,7 @@ namespace LogisticApp.Data
              public DbSet<ForWarder> ForWarders { get; set; }
              public DbSet<Schedule> Schedules { get; set; }
              public DbSet<Vehicle> Vehicles { get; set; }
-             public DbSet<VehicleLocation> VehiclesLocations { get; set; }
+             public DbSet<VehicleLocation> VehicleLocations { get; set; }
 
     }
 }

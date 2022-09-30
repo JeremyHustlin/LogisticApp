@@ -1,12 +1,11 @@
-﻿
-namespace LogisticApp.ModelsCustomer
+﻿namespace LogisticApp.ControllerModelsCustomer
 {
-    public class OrderLocation
+    public class AddOrderLocation
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public string Adress { get; set; }
-        public List<Order> Orders { get; set; }
+        public List<AddOrder> Orders { get; set; }
         
 
     }
