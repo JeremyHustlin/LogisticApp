@@ -33,6 +33,7 @@ namespace LogisticApp.APIController
             var driver = new Driver()
             {
                 Id = addDriver.Id,
+                PhoneNumber=addDriver.PhoneNumber,
                 Free_or_Busy = addDriver.Free_or_Busy,
                 DayOfWeek = addDriver.DayOfWeek,
                 Hour= addDriver.Hour,
@@ -57,6 +58,41 @@ namespace LogisticApp.APIController
             return Ok(driver);
 
 
+
+        }
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateDriver([FromRoute] string id, UpdateDriver updateDriver)
+        {
+            var driver= await _context.Drivers.FindAsync(id);
+
+            if (driver != null)
+            {
+                driver.Id = updateDriver.Id;
+                driver.PhoneNumber = updateDriver.PhoneNumber;
+                driver.Free_or_Busy = updateDriver.Free_or_Busy;
+                driver.DayOfWeek = updateDriver.DayOfWeek;
+                driver.Hour = updateDriver.Hour;
+                driver.VehicleLocations = updateDriver.VehicleLocations.Select(updateVehicleLocation => new VehicleLocation()
+
+                {
+                    Id = updateVehicleLocation.Id,
+                    Location_Name = updateVehicleLocation.Location_Name,
+                    Hour = updateVehicleLocation.Hour,
+                }).ToList();
+                driver.Vehicles = updateDriver.Vehicles.Select(updateVehicle => new Vehicle()
+
+                {
+                    Id = updateVehicle.Id,
+                    Name = updateVehicle.Name,
+                    Type = updateVehicle.Type,
+                }).ToList();
+
+                await _context.SaveChangesAsync();
+                return Ok(driver);
+            }
+            return NotFound();
+             
 
         }
     }

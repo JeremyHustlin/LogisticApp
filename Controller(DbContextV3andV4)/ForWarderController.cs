@@ -58,6 +58,39 @@ namespace LogisticApp.APIController
             return Ok(forwarder);
 
         }
+
+
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateForWarder([FromRoute] string id, UpdateForWarder updateForWarder)
+        {
+            var forwarder = await _context.ForWarders.FindAsync(id);
+            if (forwarder != null)
+            {
+                forwarder.Id = updateForWarder.Id;
+                forwarder.Call_Centre_Phone = updateForWarder.Call_Centre_Phone;
+                forwarder.Company_Name = updateForWarder.Company_Name;
+                forwarder.SchedulesId = updateForWarder.Schedules.Id;
+                forwarder.Vehicles = updateForWarder.Vehicles.Select(updateOrder => new Vehicle()
+
+                {
+                    Id = updateOrder.Id,
+                    Name = updateOrder.Name,
+                    Type = updateOrder.Type,
+                }).ToList();
+                forwarder.Drivers = updateForWarder.Drivers.Select(updateDriver => new Driver()
+                {
+                    Id = updateDriver.Id,
+                    UserName = updateDriver.UserName,
+                    PhoneNumber = updateDriver.PhoneNumber,
+                }).ToList();
+
+                await _context.SaveChangesAsync();
+                return Ok(forwarder);
+
+            }
+            return NotFound();
+        }
     }
 }
 

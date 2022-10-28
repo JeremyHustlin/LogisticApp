@@ -45,5 +45,23 @@ namespace LogisticApp.APIController
 
 
         }
+
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateVehicle([FromRoute] string id, UpdateVehicle updateVehicle)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            if (vehicle != null)
+            {
+                vehicle.Id = updateVehicle.Id;
+                vehicle.Name = updateVehicle.Name;
+                vehicle.Type = updateVehicle.Type;
+
+                await _context.SaveChangesAsync();
+                return Ok(vehicle);
+
+            }
+            return NotFound();
+        }
     }
 }

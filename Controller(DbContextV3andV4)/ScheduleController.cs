@@ -53,5 +53,23 @@ namespace LogisticApp.APIController
             return Ok(schedule);
 
         }
+
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateSchedule([FromRoute] string id,UpdateSchedule updateSchedule)
+        {
+            var schedule= await _context.Schedules.FindAsync(id);
+            if (schedule != null)
+            {
+                schedule.Id = id;
+                schedule.DriverId = updateSchedule.Driver.Id;
+                schedule.OrderLocationId = updateSchedule.OrderLocation.Id;
+
+                await _context.SaveChangesAsync();
+                return Ok(schedule);
+
+            }
+            return NotFound();
+        }
     }
 }

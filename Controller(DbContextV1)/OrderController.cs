@@ -59,9 +59,36 @@ namespace LogisticApp.Controller_DbContextV1_
 
 
             }
+        // PUT: Customer
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateOrder([FromRoute] string id, UpdateOrder updateOrder)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
+            {
+                order.Id = updateOrder.Id;
+                order.DayOfWeek = updateOrder.DayOfWeek;
+                order.DateTime = updateOrder.DateTime;
+                order.Name = updateOrder.Name;
+                order.CustomerId = updateOrder.Customers.Id;
+                order.OrderLocationId = updateOrder.OrderLocations.Id;
+                order.Products = updateOrder.Products.Select(updateProduct => new Product()
+                {
+                    Product_Info = updateProduct.Product_Info,
+                    Name = updateProduct.Name,
+                }).ToList();
+                await _context.SaveChangesAsync();
 
+                return Ok(order);
+            }
+            return NotFound();
 
 
         }
+
+
+
+    }
     }
 

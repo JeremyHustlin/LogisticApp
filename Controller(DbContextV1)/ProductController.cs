@@ -57,8 +57,34 @@ namespace LogisticApp.Controller_DbContextV1_
 
             }
 
+        // PUT: Customer
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateProduct([FromRoute] string id, UpdateProduct updateProduct)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                product.Id = updateProduct.Id;
+                product.Name = updateProduct.Name;
+                product.Product_Info = updateProduct.Product_Info;
+                product.Orders = updateProduct.Orders.Select(updateOrder => new Order()
+
+                {
+                    Name = updateOrder.Name,
+
+                }).ToList();
+                await _context.SaveChangesAsync();
+
+                return Ok(product);
+            }
+            return NotFound();
 
 
         }
+
+
+
+    }
     }
 

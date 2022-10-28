@@ -34,7 +34,7 @@ namespace LogisticApp.APIController
             {
                 Id = addDelivers.Id,
                 Name = addDelivers.Name,
-                TransportationId= addDelivers.Transportations.Id,
+                TransportationId = addDelivers.Transportations.Id,
 
             };
 
@@ -45,5 +45,26 @@ namespace LogisticApp.APIController
 
 
         }
+
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateDelivers([FromRoute] string id, UpdateDelivers updateDelivers)
+        {
+            var deliver = await _context.Delivers.FindAsync(id);
+
+            if (deliver != null)
+            {
+                deliver.Name = updateDelivers.Name;
+                deliver.Id = updateDelivers.Id;
+                deliver.TransportationId = updateDelivers.Transportations.Id;
+                await _context.SaveChangesAsync();
+                return Ok(deliver);
+            }
+
+            return NotFound();
+        }
+
+
+        
     }
 }

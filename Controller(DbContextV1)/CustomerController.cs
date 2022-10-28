@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LogisticApp.ModelsCustomer;
 using System.Data.Entity;
+using LinqKit.Core; 
 
 namespace LogisticApp.APIController
 {
@@ -21,14 +22,27 @@ namespace LogisticApp.APIController
 
         // GET: Customers
         [HttpGet]
-        public async Task<ActionResult> GetCustomer()
+        public async Task<IActionResult> GetCustomers()
         {
             return Ok(await _context.Customers.ToListAsync());
 
         }
+        //GET:Customer
+        [HttpGet]
+        [Route("(id)")]
+        public async Task<IActionResult> GetCustomer([FromRoute] string id)
+        {
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(customer);
+        }
         // POST: Customers
         [HttpPost]
-        public async Task<ActionResult> AddCustomer(AddCustomer addCustomer)
+        public async Task<IActionResult> AddCustomer(AddCustomer addCustomer)
         {
             var customer = new Customer()
             {
@@ -50,6 +64,50 @@ namespace LogisticApp.APIController
 
 
         }
+        // PUT: Customer
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<IActionResult> UpdateCustomer([FromRoute] string id, UpdateCustomer updateCustomer)
+        {
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer != null)
+            {
+                customer.Id = updateCustomer.Id;
+                customer.Company_Name = updateCustomer.Company_Name;
+                customer.CallCentrePhone = updateCustomer.CallCentrePhone;
+                customer.Orders = updateCustomer.Orders.Select(updateOrder => new Order()
+                {
+                    Id = updateOrder.Id,
+                    Name = updateOrder.Name,
+                }).ToList();
+                await _context.SaveChangesAsync();
+
+                return Ok(customer);
+            }
+            return NotFound();
+
+
+        }
+        [HttpDelete]
+        [Route("(id)")]
+        public async Task<IActionResult> DeleteCustomer([FromRoute] string id)
+        
+        {
+            var customer= await _context.Customers.FindAsync(id);
+
+            if(customer != null)
+            {
+                _context.Remove(customer);
+                await _context.SaveChangesAsync();
+                return Ok(customer);
+
+
+            }
+
+            return NotFound();
+
+        }
+       
     }
 }
 

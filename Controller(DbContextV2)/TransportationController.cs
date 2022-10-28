@@ -46,5 +46,22 @@ namespace LogisticApp.APIController
 
 
         }
+        [HttpPut]
+        [Route("(id)")]
+        public async Task<ActionResult> UpdateTransportation([FromRoute] string id, UpdateTransportation updateTransportation)
+        {
+            var transportation = await _context.Transportations.FindAsync(id);
+
+            if (transportation != null)
+            {
+                transportation.Id = updateTransportation.Id;
+                transportation.Distance = updateTransportation.Distance;
+                transportation.PriceId = updateTransportation.Prices.Id;
+                await _context.SaveChangesAsync();
+                return Ok(transportation);
+            }
+
+            return NotFound();
+        }
     }
 }
